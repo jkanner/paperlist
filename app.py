@@ -41,7 +41,7 @@ with st.form("queryform"):
 
 if submitted:
     with st.spinner('Query in progress ...'):
-        time.sleep(5)
+        time.sleep(3)
         with open(fn, 'r') as file:
             btn = st.download_button('Download', data=file, file_name='papers.csv')
     

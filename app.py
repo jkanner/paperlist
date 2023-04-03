@@ -42,7 +42,7 @@ with st.form("queryform"):
 if submitted:
     try:
         with open(fn, 'r') as file:
-            btn = st.download_button('Download', data=file, file_name='papers.csv')
+            btn = st.download_button('Download', data=file, file_name=fn)
     except:
         st.write("Whoops!  Try clicking the query button again.")
     

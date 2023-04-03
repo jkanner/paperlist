@@ -16,6 +16,6 @@ from utils import write_ads_record, FL
 
 def getpapers(author='Kanner,Jonah', year=2023, fl=FL):
     papers = list(ads.SearchQuery(author=author, year=year, fl=FL))
-    fn = 'paperlist-' + author + year + '.csv'
+    fn = 'out/paperlist-' + author.replace(",", '-') + str(year) + '.csv'
     write_ads_record(papers, fn)
     return(fn)

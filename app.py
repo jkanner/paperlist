@@ -13,7 +13,7 @@ with st.form("queryform"):
     year = st.number_input('Year', min_value=2000, max_value=2040, value=2023)
 
     author = authorl + ',' + authorf
-    fn = 'out/paperlist-' + author.replace(",", '-') + str(year) + '.csv'
+    fn = 'paperlist-' + author.replace(",", '-') + str(year) + '.csv'
     try:
         token=st.secrets['token']
     except:

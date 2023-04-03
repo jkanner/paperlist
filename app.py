@@ -1,5 +1,6 @@
 import streamlit as st
 from getpapers import getpapers
+import time
 
 st.write("# Group Paper List")
 
@@ -26,6 +27,8 @@ with st.form("queryform"):
 
 
 if submitted:
+    with st.spinner('Query in progress ...')
+    time.sleep(5)
     with open(fn, 'r') as file:
         btn = st.download_button('Download', data=file, file_name='papers.csv')
     

@@ -14,10 +14,14 @@ with st.form("queryform"):
 
     author = authorl + ',' + authorf
     fn = 'out/paperlist-' + author.replace(",", '-') + str(year) + '.csv'
-    
+    try:
+        token=st.secrets['token']
+    except:
+        token=None
+        
     submitted = st.form_submit_button("Query",
                                       on_click=getpapers,
-                                      args=(author, year)
+                                      args=(author, year, token)
                                       )
 
 

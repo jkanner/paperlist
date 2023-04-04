@@ -1,7 +1,7 @@
 
 import ads
 import csv
-
+import streamlit as st
 from utils import write_ads_record, FL
 
 #bib = '2021arXiv210707129M'
@@ -15,7 +15,11 @@ from utils import write_ads_record, FL
 
 
 def getpapers(author='Kanner,Jonah', year=2023, token=None, fl=FL):
-    papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))
+    try:
+        papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))
+    except:
+        st.write('Whoops!  Please retry query')
+        return(0)
     fn = 'paperlist-' + author.replace(",", '-') + str(year) + '.csv'
-    write_ads_record(papers, fn)
+    write_ads_record(papers)
     return(fn)

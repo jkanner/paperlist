@@ -1,6 +1,6 @@
 import streamlit as st
 from getpapers import getpapers
-import time
+import time, io, csv
 
 st.write("# Group Paper List")
 
@@ -17,7 +17,6 @@ st.write("""
 
 """)
 
-
 with st.form("queryform"):
     
     authorf = st.text_input('Author First Name')
@@ -32,7 +31,7 @@ with st.form("queryform"):
         token=st.secrets['token']
     except:
         token=None
-        
+    
     submitted = st.form_submit_button("Query",
                                       on_click=getpapers,
                                       args=(author, year, token)
@@ -40,11 +39,12 @@ with st.form("queryform"):
 
 
 if submitted:
-    try:
-        with open(fn, 'r') as file:
-            btn = st.download_button('Download', data=file, file_name=fn)
-    except:
-        st.write("Whoops!  Try clicking the query button again.")
+    
+    outfile = st.session_state['csv']
+    results = outfile.getvalue().split('\n')
+    st.write("Found {0} results".format(len(results)-2))
+    btn = st.download_button('Download', data=outfile.getvalue(), file_name=fn)
+
     
 
 

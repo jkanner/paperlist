@@ -1,5 +1,6 @@
 import ads
-import csv
+import csv, io
+import streamlit as st
 
 # -- PARAMLIST is list of headings for internal CSV file (master_paperlist)
 PARAMLIST = ['title', 'author1', 'authorList', 'bibcode', 'pubdate', 'year',
@@ -64,25 +65,25 @@ def good_bibcode(record):
     return good
 
 
-def write_ads_record(paperlist, fn='ads_out.csv'):
-
-    print('Writing to file: ', fn)
-    with open(fn, 'w') as outfile:
-        csvwrite = csv.writer(outfile, quoting=csv.QUOTE_ALL)
-        csvwrite.writerow(PARAMLIST)
+def write_ads_record(paperlist):
+    
+    outfile = io.StringIO()
+    csvwrite = csv.writer(outfile, quoting=csv.QUOTE_ALL)  #-- outfile is a global
+    csvwrite.writerow(PARAMLIST)
         
-        for p in paperlist:
-            print(p.title)            
-            dcc = ''
-            tags = ''
-            arxiv = get_arxiv(p)
-            doi = get_doi(p)
-            try:
-                page = p.page[0]
-            except:
-                page = None
+    for p in paperlist:
+        print(p.title)            
+        dcc = ''
+        tags = ''
+        arxiv = get_arxiv(p)
+        doi = get_doi(p)
+        try:
+            page = p.page[0]
+        except:
+            page = None
 
             
-            csvwrite.writerow([p.title[0], p.first_author, p.author, p.bibcode, p.pubdate, p.year, p.pub, p.volume, page, p.abstract, arxiv, dcc, tags, doi])
+        csvwrite.writerow([p.title[0], p.first_author, p.author, p.bibcode, p.pubdate, p.year, p.pub, p.volume, page, p.abstract, arxiv, dcc, tags, doi])
 
+    st.session_state['csv'] = outfile
     return 0

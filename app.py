@@ -59,7 +59,7 @@ if infile:
     al = ArticleList(infile)
     al.writehtml('upload.html', start=2000, stop=2024)
     al.writetext('upload.txt', start=2000, stop=2024)
-    al.write_bibtex('upload.bib')
+    al.write_bibtex('upload.bib', token=token)
     
 
     with open('upload.html','r') as outfile:

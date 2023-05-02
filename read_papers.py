@@ -133,14 +133,17 @@ li {
         outfile.close()
 
 
-    def write_bibtex(self, filename):
+    def write_bibtex(self, filename, token):
 
         # -- Get list of bibcodes
         biblist = []
         for article in self.alist:
             biblist.append(article['bibcode'])
         outfile = open(filename, 'w')
-        bibtex = ads.ExportQuery(bibcodes=biblist, format='bibtex').execute()
+        bibtexobj = ads.ExportQuery(bibcodes=biblist, format='bibtex')
+        bibtexobj.token = token
+        bibtex = bibtexobj.execute()
+
         outfile.write(bibtex)
         outfile.close()
         

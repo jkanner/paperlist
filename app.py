@@ -11,11 +11,13 @@ st.write("## Instructions")
 
 st.write("""
 
-1. Check out the [LIGO Lab Group paper list](https://docs.google.com/spreadsheets/d/1zxE7Zlatfgl07ocoJe-1LpNOeFOKHjFjLxplOxGlKzI/edit?usp=sharing)
+1. Check out the LIGO Lab Group [master paper list](https://docs.google.com/spreadsheets/d/1zxE7Zlatfgl07ocoJe-1LpNOeFOKHjFjLxplOxGlKzI/edit?usp=sharing)
 
 2. Use the form below to query for your recent papers
 
-3. Download the CSV, and then copy and paste the data into the paper list
+3. Click "Download CSV"
+
+4. Copy and paste any new papers into the master paper list
 
 """)
 
@@ -49,11 +51,15 @@ if submitted:
     st.write("Found {0} results".format(len(results)-2))
     if numresults == 50:
         st.write("⚠️ **Warning:**  _You may need to press the Query button again_")
-    btn = st.download_button('Download', data=outfile.getvalue(), file_name=fn)
+    btn = st.download_button('Download CSV', data=outfile.getvalue(), file_name=fn)
 
     
 
+st.write('---')
 st.write('## File Format Converter')
+st.write('### Instructions')
+st.write('1. Upload a paper list CSV file')
+st.write('2. You can then download the paper list in different formats')
 
 infile = st.file_uploader('Upload CSV Paper List', type='csv', help='The file should be a paper list in CSV format')
 

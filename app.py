@@ -4,21 +4,28 @@ import time, io, csv
 from read_papers import ArticleList
 
 
-st.write("# Group Paper List")
+st.write("# LIGO Laboratory Paper List")
 
+st.write("""
+    The lab would like your help keeping track of papers published by LIGO Lab personnel.  
+    Please use the tools below to add your recent papers to the lab paper list.
 
-st.write("## Instructions")
+    For help, please contact Jonah Kanner.
+    """)  
+
+st.write("## To Add Papers:")
 
 st.write("""
 
-1. Check out the LIGO Lab Group [master paper list](https://docs.google.com/spreadsheets/d/1zxE7Zlatfgl07ocoJe-1LpNOeFOKHjFjLxplOxGlKzI/edit?usp=sharing)
+1. Use the form below to query [ADS](https://ui.adsabs.harvard.edu) for your recent papers.  You may need to click "Query" twice.
 
-2. Use the form below to query for your recent papers
+2. Click "Download CSV" to download a CSV file of your papers.
 
-3. Click "Download CSV"
+3. Copy and paste any new papers into the [master paper list](https://docs.google.com/spreadsheets/d/1SOAwgqzmDrWgAXbfwao-nQvLYZgeKXiw5yterqiG9eM/)
 
-4. Copy and paste any new papers into the master paper list
+4. Add the DCC number of each paper to the appropriate column.
 
+5. Add TRUE as needed to the last 3 columns to indicate if each paper is about data analysis, instrument science, and/or if it is a full author-list LVK paper.
 """)
 
 with st.form("queryform"):
@@ -29,6 +36,8 @@ with st.form("queryform"):
 
     year = st.number_input('Year', min_value=2000, max_value=2040, value=2023)
 
+    gwfilter = st.checkbox('Return only papers about gravitational-waves?')
+
     author = authorl + ',' + authorf
     fn = 'paperlist-' + author.replace(",", '-') + str(year) + '.csv'
     try:
@@ -37,9 +46,9 @@ with st.form("queryform"):
         with open('/Users/jkanner/.ads/dev_key', 'r') as infile:
             token=infile.read()
     
-    submitted = st.form_submit_button("Query",
+    submitted = st.form_submit_button("Query ADS",
                                       on_click=getpapers,
-                                      args=(author, year, token)
+                                      args=(author, year, token, gwfilter)
                                       )
 
 
@@ -57,7 +66,7 @@ if submitted:
 
 st.write('---')
 st.write('## File Format Converter')
-st.write('### Instructions')
+st.write('#### To download HTML, LATEX, BIBTEX, or ASCII:')
 st.write('1. Upload a paper list CSV file')
 st.write('2. You can then download the paper list in different formats')
 

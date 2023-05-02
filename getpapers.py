@@ -2,7 +2,7 @@
 import ads
 import csv
 import streamlit as st
-from utils import write_ads_record, FL
+from utils import write_ads_record, FL, about_gw
 
 #bib = '2021arXiv210707129M'
 #fn = 'single.csv'
@@ -14,12 +14,20 @@ from utils import write_ads_record, FL
 #print("Wrote result to: ", fn)
 
 
-def getpapers(author='Kanner,Jonah', year=2023, token=None, fl=FL):
+def getpapers(author='Kanner,Jonah', year=2023, token=None, gwfilter=False, fl=FL ):
     try:
         papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))
     except:
         st.write('Whoops!  Please retry query')
         return(0)
     fn = 'paperlist-' + author.replace(",", '-') + str(year) + '.csv'
-    write_ads_record(papers)
+
+    # -- Try filtering on gw content
+    gw_papers = [x for x in papers if about_gw(x)]
+
+    if gwfilter:
+        write_ads_record(gw_papers)
+    else:
+        write_ads_record(papers)
+
     return(fn)

@@ -4,7 +4,8 @@ import streamlit as st
 
 # -- PARAMLIST is list of headings for internal CSV file (master_paperlist)
 PARAMLIST = ['title', 'author1', 'authorList', 'bibcode', 'pubdate', 'year',
-                           'journal', 'volume', 'page', 'abstract', 'arxiv', 'dcc', 'tags', 'doi']
+                           'journal', 'volume', 'page', 'abstract', 'arxiv', 'dcc', 'tags', 'doi', 
+                           'data-analysis', 'instrument-science', 'lvk']
 
 # -- FL is field list returned by ADS
 FL = ['author', 'first_author', 'bibcode', 'id',
@@ -77,13 +78,16 @@ def write_ads_record(paperlist):
         tags = ''
         arxiv = get_arxiv(p)
         doi = get_doi(p)
+        da = ''
+        inssci = ''
+        lvk = ''
         try:
             page = p.page[0]
         except:
             page = None
 
             
-        csvwrite.writerow([p.title[0], p.first_author, p.author, p.bibcode, p.pubdate, p.year, p.pub, p.volume, page, p.abstract, arxiv, dcc, tags, doi])
+        csvwrite.writerow([p.title[0], p.first_author, p.author, p.bibcode, p.pubdate, p.year, p.pub, p.volume, page, p.abstract, arxiv, dcc, tags, doi, da, inssci, lvk])
 
     st.session_state['csv'] = outfile
     return 0

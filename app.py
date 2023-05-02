@@ -1,6 +1,8 @@
 import streamlit as st
 from getpapers import getpapers
 import time, io, csv
+from read_papers import ArticleList
+
 
 st.write("# Group Paper List")
 
@@ -30,7 +32,8 @@ with st.form("queryform"):
     try:
         token=st.secrets['token']
     except:
-        token=None
+        with open('/Users/jkanner/.ads/dev_key', 'r') as infile:
+            token=infile.read()
     
     submitted = st.form_submit_button("Query",
                                       on_click=getpapers,
@@ -47,6 +50,38 @@ if submitted:
 
     
 
+st.write('## File Format Converter')
+
+infile = st.file_uploader('Upload CSV Paper List', type='csv', help='The file should be a paper list in CSV format')
+
+
+if infile:
+    al = ArticleList(infile)
+    al.writehtml('upload.html', start=2000, stop=2024)
+    al.writetext('upload.txt', start=2000, stop=2024)
+    al.write_bibtex('upload.bib')
+    
+
+    with open('upload.html','r') as outfile:
+        btn = st.download_button(
+            label='Download HTML',
+            data=outfile,
+            file_name='papers.html',
+            mime="text/html")
+
+    with open('upload.txt','r') as outfile:
+        btn = st.download_button(
+            label='Download TXT',
+            data=outfile,
+            file_name='papers.txt',
+            mime="text/plain")
+
+    with open('upload.bib','r') as outfile:
+        btn = st.download_button(
+            label='Download BIBTEX',
+            data=outfile,
+            file_name='papers.bib',
+            mime="text/plain")
 
     
 

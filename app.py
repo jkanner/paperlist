@@ -60,6 +60,8 @@ if infile:
     al.writehtml('upload.html', start=2000, stop=2024)
     al.writetext('upload.txt', start=2000, stop=2024)
     al.write_bibtex('upload.bib', token=token)
+    al.writebibitem('upload.tex', start=2000, stop=2024)
+
     
 
     with open('upload.html','r') as outfile:
@@ -82,6 +84,15 @@ if infile:
             data=outfile,
             file_name='papers.bib',
             mime="text/plain")
+
+    with open('upload.tex','r') as outfile:
+        btn = st.download_button(
+            label='Download LATEX',
+            data=outfile,
+            file_name='papers.tex',
+            mime="text/plain")
+
+
 
     
 

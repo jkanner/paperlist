@@ -45,7 +45,10 @@ if submitted:
     
     outfile = st.session_state['csv']
     results = outfile.getvalue().split('\n')
+    numresults = len(results)-2
     st.write("Found {0} results".format(len(results)-2))
+    if numresults == 50:
+        st.write("⚠️ **Warning:**  _You may need to press the Query button again_")
     btn = st.download_button('Download', data=outfile.getvalue(), file_name=fn)
 
     

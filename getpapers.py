@@ -37,10 +37,7 @@ def getpapers(token=None, fl=FL ):
     # -- Try filtering on gw content
     gw_papers = [x for x in papers if about_gw(x)]
 
-        
-    
-    
-
+    # -- Return paper list
     if st.session_state['gwfilter']:
         write_ads_record(gw_papers)
     else:

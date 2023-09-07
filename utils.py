@@ -66,6 +66,12 @@ def good_bibcode(record):
     return good
 
 
+def is_shortauthor(record):
+    if len(record.author) > 1000:
+        return False
+    else:
+        return True
+
 def write_ads_record(paperlist):
     
     outfile = io.StringIO()
@@ -90,4 +96,6 @@ def write_ads_record(paperlist):
         csvwrite.writerow([p.title[0], p.first_author, p.author, p.bibcode, p.pubdate, p.year, p.pub, p.volume, page, p.abstract, arxiv, dcc, tags, doi, da, inssci, lvk])
 
     st.session_state['csv'] = outfile
+    st.session_state['papers'] = paperlist
+    
     return 0

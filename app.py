@@ -30,13 +30,15 @@ st.write("""
 
 with st.form("queryform"):
     
-    authorf = st.text_input('Author First Name')
+    authorf = st.text_input('Author First Name', key='authorf')
 
-    authorl = st.text_input('Author Last Name')
+    authorl = st.text_input('Author Last Name', key='authorl')
 
-    year = st.number_input('Year', min_value=2000, max_value=2040, value=2023)
+    year = st.number_input('Year', min_value=2000, max_value=2040, value=2023, key='year')
 
-    gwfilter = st.checkbox('Return only papers about gravitational-waves?')
+    gwfilter = st.checkbox('Return only papers about gravitational-waves?', value=True, key='gwfilter')
+
+    shortauth = st.checkbox('Return only short author-list papers?', value=True, key='shortauthor')
 
     author = authorl + ',' + authorf
     fn = 'paperlist-' + author.replace(",", '-') + str(year) + '.csv'
@@ -48,7 +50,7 @@ with st.form("queryform"):
     
     submitted = st.form_submit_button("Query ADS",
                                       on_click=getpapers,
-                                      args=(author, year, token, gwfilter)
+                                      args=(author, year, token, gwfilter, shortauth)
                                       )
 
 
@@ -57,9 +59,12 @@ if submitted:
     outfile = st.session_state['csv']
     results = outfile.getvalue().split('\n')
     numresults = len(results)-2
-    st.write("Found {0} results".format(len(results)-2))
+    st.write("**Found {0} results:**".format(len(results)-2))
     if numresults == 50:
         st.write("⚠️ **Warning:**  _You may need to press the Query button again_")
+
+    for paper in st.session_state['papers']:
+        st.write("> " + paper.title[0])
     btn = st.download_button('Download CSV', data=outfile.getvalue(), file_name=fn)
 
     

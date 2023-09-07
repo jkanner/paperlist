@@ -15,16 +15,13 @@ import time
 #print("Wrote result to: ", fn)
 
 
-def getpapers(author='Kanner,Jonah', year=2023, token=None, gwfilter=False, shortauthor=True, fl=FL ):
-
+def getpapers(token=None, fl=FL ):
 
     author = st.session_state['authorl'] + ',' + st.session_state['authorf']
     year = st.session_state['year']
     
-    
     try:
-        papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))
-         
+        papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))     
     except:
         st.write('Whoops!  Please retry query')
         return(0)

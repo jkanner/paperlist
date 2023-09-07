@@ -50,7 +50,7 @@ with st.form("queryform"):
     
     submitted = st.form_submit_button("Query ADS",
                                       on_click=getpapers,
-                                      args=(author, year, token, gwfilter, shortauth)
+                                      args=([token])
                                       )
 
 

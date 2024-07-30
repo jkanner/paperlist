@@ -19,7 +19,8 @@ def getpapers(token=None, fl=FL ):
 
     author = st.session_state['authorl'] + ',' + st.session_state['authorf']
     year = st.session_state['year']
-    
+    year = str(year)
+
     try:
         papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))     
     except:
@@ -37,6 +38,7 @@ def getpapers(token=None, fl=FL ):
     # -- Try filtering on gw content
     gw_papers = [x for x in papers if about_gw(x)]
 
+    print('Paper list', papers)
     # -- Return paper list
     if st.session_state['gwfilter']:
         write_ads_record(gw_papers)

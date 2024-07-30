@@ -47,6 +47,7 @@ with st.form("queryform"):
     except:
         with open('/Users/jkanner/.ads/dev_key', 'r') as infile:
             token=infile.read()
+            print(token)
     
     submitted = st.form_submit_button("Query ADS",
                                       on_click=getpapers,
@@ -55,8 +56,12 @@ with st.form("queryform"):
 
 
 if submitted:
-    
-    outfile = st.session_state['csv']
+    try:
+        outfile = st.session_state['csv']
+    except:
+        st.write("No papers found.  Possible error")
+
+    # -- Debugging    
     results = outfile.getvalue().split('\n')
     numresults = len(results)-2
     st.write("**Found {0} results:**".format(len(results)-2))
@@ -68,7 +73,6 @@ if submitted:
     btn = st.download_button('Download CSV', data=outfile.getvalue(), file_name=fn)
 
     
-
 st.write('---')
 st.write('## File Format Converter')
 st.write('#### To download HTML, LATEX, BIBTEX, or ASCII:')
@@ -86,7 +90,6 @@ if infile:
     al.writebibitem('upload.tex', start=2000, stop=2024)
 
     
-
     with open('upload.html','r') as outfile:
         btn = st.download_button(
             label='Download HTML',

@@ -19,7 +19,8 @@ def getpapers(token=None, fl=FL ):
 
     author = st.session_state['authorl'] + ',' + st.session_state['authorf']
     year = st.session_state['year']
-    
+    year = str(year)
+
     try:
         papers = list(ads.SearchQuery(author=author, year=year, fl=FL, token=token))     
     except:

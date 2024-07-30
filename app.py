@@ -47,7 +47,6 @@ with st.form("queryform"):
     except:
         with open('/Users/jkanner/.ads/dev_key', 'r') as infile:
             token=infile.read()
-            print(token)
     
     submitted = st.form_submit_button("Query ADS",
                                       on_click=getpapers,
@@ -56,12 +55,9 @@ with st.form("queryform"):
 
 
 if submitted:
-    try:
-        outfile = st.session_state['csv']
-    except:
-        st.write("No papers found.  Possible error")
 
-    # -- Debugging    
+    outfile = st.session_state['csv']
+
     results = outfile.getvalue().split('\n')
     numresults = len(results)-2
     st.write("**Found {0} results:**".format(len(results)-2))
